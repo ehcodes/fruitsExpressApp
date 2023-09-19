@@ -5,6 +5,9 @@ class Index extends React.Component {
     const { fruits } = this.props;
     return (
       <div>
+        <nav>
+          <a href="/fruits/new">Create a New Fruit</a>
+      </nav>
         <h1>Fruits Index Page</h1>
         <ul>
           {fruits.map((fruit, i) => {
