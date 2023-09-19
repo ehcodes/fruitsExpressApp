@@ -59,6 +59,28 @@ app.get("/veggies", function (req, res) {
   res.render("IndexVeggie", { veggies: veggies });
 });
 
+// renders form to add a new fruit
+app.get("/veggies/new", function (req, res) {
+  res.render("NewVeggie");
+});
+
+// Delete
+// Update
+
+// Create data via a post request
+app.post("/veggies", (req, res) => {
+  //if checked, req.body.readyToEat is set to 'on'
+  if (req.body.readyToEat === "on") {
+    // rewritten to match existing data
+    req.body.readyToEat = true;
+  } else {
+    req.body.readyToEat = false;
+  }
+  veggies.push(req.body);
+  // redirect user to the fruits route
+  res.redirect('/veggies');
+});
+
 app.get("/veggies/:indexOfVeggiesArray", function (req, res) {
   res.render("ShowVeggie", {
     veggie: veggies[req.params.indexOfVeggiesArray],
