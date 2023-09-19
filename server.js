@@ -12,14 +12,14 @@ const localPort = 3000;
 const siteAddress = `http://localhost:3000/`;
 const fruits = require("./models/fruits.js");
 const veggies = require("./models/veggies.js");
-  
-app.get('/new', function(req, res){
-  res.render('New');
-}); 
 
 // /fruits route will render the Index.jsx component
 app.get('/fruits', function(req, res){
   res.render('Index', { fruits: fruits });
+});
+  
+app.get('/fruits/new', function(req, res){
+  res.render('New');
 }); 
 
 app.get("/fruits/:indexOfFruitsArray", function (req, res) {
@@ -36,7 +36,7 @@ app.get('/veggies', function(req, res){
 
 app.get("/veggies/:indexOfVeggiesArray", function (req, res) {
   res.render("ShowVeggie", {
-    veggies: veggies[req.params.indexOfVeggiesArray],
+    veggie: veggies[req.params.indexOfVeggiesArray],
   });
 });
 
