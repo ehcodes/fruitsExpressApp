@@ -22,12 +22,12 @@ const veggies = require("./models/veggies.js");
 
 // fruits route will render the Index.jsx component
 app.get("/fruits", function (req, res) {
-  res.render("Index", { fruits: fruits });
+  res.render("fruits/Index", { fruits: fruits });
 });
 
 // renders form to add a new fruit
 app.get("/fruits/new", function (req, res) {
-  res.render("New");
+  res.render("fruits/New");
 });
 
 // Delete
@@ -48,7 +48,7 @@ app.post("/fruits", (req, res) => {
 });
 
 app.get("/fruits/:indexOfFruitsArray", function (req, res) {
-  res.render("Show", {
+  res.render("fruits/Show", {
     //second param must be an object
     fruit: fruits[req.params.indexOfFruitsArray],
     //there will be a variable available inside the ejs file called fruit, its value is fruits[req.params.indexOfFruitsArray]
@@ -56,16 +56,16 @@ app.get("/fruits/:indexOfFruitsArray", function (req, res) {
 });
 
 app.get("/veggies", function (req, res) {
-  res.render("IndexVeggie", { veggies: veggies });
+  res.render("veggies/IndexVeggie", { veggies: veggies });
 });
 
 // renders form to add a new fruit
 app.get("/veggies/new", function (req, res) {
-  res.render("NewVeggie");
+  res.render("veggies/NewVeggie");
 });
 
-// Delete
-// Update
+// Delete - will go over in future class
+// Update - will go over in future class
 
 // Create data via a post request
 app.post("/veggies", (req, res) => {
@@ -82,7 +82,7 @@ app.post("/veggies", (req, res) => {
 });
 
 app.get("/veggies/:indexOfVeggiesArray", function (req, res) {
-  res.render("ShowVeggie", {
+  res.render("veggies/ShowVeggie", {
     veggie: veggies[req.params.indexOfVeggiesArray],
   });
 });
