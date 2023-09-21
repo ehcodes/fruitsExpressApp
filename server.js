@@ -81,7 +81,7 @@ app.get("/fruits/:id", async function (req, res) {
 });
 
 app.get("/veggies", (req, res) => {
-  Fruit.find({}).then((allVeggies) => {
+  Veggie.find({}).then((allVeggies) => {
     res.render("veggies/IndexVeggie", {
       veggies: allVeggies,
     });
