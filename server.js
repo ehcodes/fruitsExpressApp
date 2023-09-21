@@ -15,7 +15,6 @@ app.use(express.urlencoded({ extended: false }));
 
 // middleware - necessary to access posted form data
 app.use((req, res, next) => {
-  console.log("I run for all routes");
   next();
 });
 
@@ -59,7 +58,6 @@ app.post("/fruits", async function (req, res) {
   }
   try {
     const newFruit = await Fruit.create(req.body);
-    console.log(newFruit);
     return res.redirect("/fruits");
   } catch (err) {
     res.send(`error in adding ${newFruit.name}`);
@@ -73,7 +71,6 @@ app.get("/fruits/:id", async function (req, res) {
     res.render("fruits/Show", {
       fruit: foundFruit,
     });
-    console.log(foundFruit);
   } catch (err) {
     res.send(err);
     console.error(err);
@@ -105,7 +102,6 @@ app.post("/veggies", async function (req, res) {
   }
   try {
     const newVeggie = await Veggie.create(req.body);
-    console.log(newVeggie);
     return res.redirect("/veggies");
   } catch (err) {
     res.send(`error in adding new veggie`);
@@ -119,7 +115,6 @@ app.get("/veggies/:id", async function (req, res) {
     res.render("veggies/Show", {
       veggie: foundVeggie,
     });
-    console.log(foundVeggie);
   } catch (err) {
     res.send(err);
     console.error(err);
