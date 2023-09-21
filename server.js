@@ -34,8 +34,8 @@ mongoose.connection.once("open", () => {
 });
 
 // IMPORTING MODELS
-const Fruit = require("./models/fruit.js");
-const veggies = require("./models/veggies.js");
+const Fruit = require("./models/fruitSchema.js");
+const Veggie = require("./models/veggieSchema.js");
 
 // EXPRESS ROUTES
 // fruits route will render the Index.jsx component
@@ -96,18 +96,21 @@ app.get("/veggies/new", function (req, res) {
 // Delete - will go over in future class
 // Update - will go over in future class
 
-// Create data via a post request
-app.post("/veggies", (req, res) => {
-  //if checked, req.body.readyToEat is set to 'on'
+// Send data to mdb via post request
+app.post("/veggies", async function (req, res) {
   if (req.body.readyToEat === "on") {
-    // rewritten to match existing data
     req.body.readyToEat = true;
   } else {
     req.body.readyToEat = false;
   }
-  veggies.push(req.body);
-  // redirect user to the fruits route
-  res.redirect("/veggies");
+  try {
+    const newVeggie = await Veggie.create(req.body);
+    console.log(newVeggie);
+    return res.redirect("/veggies");
+  } catch (err) {
+    res.send(`error in adding new veggie`);
+    console.error(err);
+  }
 });
 
 app.get("/veggies/:indexOfVeggiesArray", function (req, res) {
