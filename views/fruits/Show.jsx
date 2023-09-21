@@ -5,7 +5,7 @@ class Show extends React.Component {
     const fruit = this.props.fruit;
     return (
       <div>
-        <h1> Fruit Show Page </h1>
+        <h1>{fruit.name.toUpperCase()}</h1>
         <p>
           The {fruit.name} is {fruit.color}
         </p>
