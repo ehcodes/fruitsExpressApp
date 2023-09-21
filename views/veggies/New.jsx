@@ -5,10 +5,6 @@ class NewVeggie extends React.Component {
     return (
         <div>
             <h1>New Veggie page</h1>
-            {/* 
-            action = server route
-            method = HTTP verb 
-            */}
             <form action="/veggies" method="POST">
               Name: <input type="text" name="name" /><br/>
               Color: <input type="text" name="color" /><br/>
