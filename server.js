@@ -1,4 +1,4 @@
-// places every kvp in our .envinto a javascript object called process.env
+// places every kvp in our .env into a javascript object called process.env
 require("dotenv").config();
 
 const express = require("express");
@@ -56,22 +56,33 @@ app.get("/fruits/new", function (req, res) {
 // Delete - will go over in future class
 // Update - will go over in future class
 
-app.post("/fruits/", (req, res) => {
+app.post("/fruits", async function (req, res) {
   if (req.body.readyToEat === "on") {
     req.body.readyToEat = true;
   } else {
     req.body.readyToEat = false;
   }
-  Fruit.create(req.body, (error, createdFruit) => {
-    res.send(createdFruit);
-    res.redirect("/fruits");
-  });
+  try {
+    const newFruit = await Fruit.create(req.body);
+    console.log(newFruit);
+    return res.redirect("/fruits");
+  } catch (err) {
+    res.send(`error in adding ${newFruit.name}`);
+    console.error(err);
+  }
 });
 
-app.get("/fruits/:id", function (req, res) {
-  Fruit.findById(req.params.id, (err, foundFruit) => {
-    res.send(foundFruit);
-  });
+app.get("/fruits/:id", async function (req, res) {
+  try {
+    const foundFruit = await Fruit.findById(req.params.id);
+    res.render("fruits/Show", {
+      fruit: foundFruit,
+    });
+    console.log(foundFruit);
+  } catch (err) {
+    res.send(err);
+    console.error(err);
+  }
 });
 
 app.get("/veggies", function (req, res) {
