@@ -34,7 +34,6 @@ mongoose.connection.once("open", () => {
 });
 
 // IMPORTING MODELS
-const fruits = require("./models/fruits.js");
 const Fruit = require("./models/fruit.js");
 const veggies = require("./models/veggies.js");
 
