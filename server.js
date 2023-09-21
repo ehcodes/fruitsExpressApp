@@ -19,10 +19,6 @@ app.use((req, res, next) => {
   next();
 });
 
-const localPort = 3000;
-
-const siteAddress = `http://localhost:3000/`;
-
 // DB CONNECTION
 mongoose.connect(process.env.MONGO_URI, {
   useNewUrlParser: true,
@@ -84,8 +80,12 @@ app.get("/fruits/:id", async function (req, res) {
   }
 });
 
-app.get("/veggies", function (req, res) {
-  res.render("veggies/IndexVeggie", { veggies: veggies });
+app.get("/veggies", (req, res) => {
+  Fruit.find({}).then((allVeggies) => {
+    res.render("veggies/IndexVeggie", {
+      veggies: allVeggies,
+    });
+  });
 });
 
 // renders form to add a new fruit
@@ -127,6 +127,6 @@ app.get("/veggies/:id", async function (req, res) {
 });
 
 app.listen(localPort, () => {
-  console.log(`listening on port ${localPort}`);
-  console.log(siteAddress);
+  console.log(`listening on port 3000`);
+  console.log(`http://localhost:3000/`);
 });
