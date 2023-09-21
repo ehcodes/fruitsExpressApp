@@ -1,29 +1,11 @@
-const veggies = [
-  {
-    name: "Yuca",
-    color: "brown",
-    readyToEat: false,
-  },
-  {
-    name: "Mapuey",
-    color: "purple",
-    readyToEat: false,
-  },
-  {
-    name: "Batata",
-    color: "beige",
-    readyToEat: false,
-  },
-  {
-    name: "Gandules",
-    color: "vomit green",
-    readyToEat: false,
-  },
-  {
-    name: "Carrots",
-    color: "orange",
-    readyToEat: true,
-  },
-];
+const mongoose = require("mongoose");
 
-module.exports = veggies;
+const veggieSchema = new mongoose.Schema({
+  name: { type: String, required: true },
+  color: { type: String, required: true },
+  readyToEat: Boolean,
+});
+
+const Veggie = mongoose.model("Veggie", veggieSchema);
+
+module.exports = Veggie;
