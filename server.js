@@ -1,9 +1,14 @@
+// places every kvp in our .envinto a javascript object called process.env
+require("dotenv").config();
+
 const express = require("express");
 const app = express();
 
 const jsxViewEngine = require("jsx-view-engine");
 app.set("view engine", "jsx");
 app.engine("jsx", jsxViewEngine());
+
+const mongoose = require("mongoose");
 
 // parses incoming requests
 app.use(express.urlencoded({ extended: false }));
@@ -17,12 +22,30 @@ app.use((req, res, next) => {
 const localPort = 3000;
 
 const siteAddress = `http://localhost:3000/`;
+
+// DB CONNECTION
+mongoose.connect(process.env.MONGO_URI, {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+});
+
+mongoose.connection.once("open", () => {
+  console.log("connected to mongo");
+});
+
+// IMPORTING MODELS
 const fruits = require("./models/fruits.js");
+const Fruit = require("./models/fruit.js");
 const veggies = require("./models/veggies.js");
 
+// EXPRESS ROUTES
 // fruits route will render the Index.jsx component
-app.get("/fruits", function (req, res) {
-  res.render("fruits/Index", { fruits: fruits });
+app.get("/fruits", (req, res) => {
+  Fruit.find({}).then((allFruits) => {
+    res.render("fruits/Index", {
+      fruits: allFruits,
+    });
+  });
 });
 
 // renders form to add a new fruit
@@ -30,28 +53,24 @@ app.get("/fruits/new", function (req, res) {
   res.render("fruits/New");
 });
 
-// Delete
-// Update
+// Delete - will go over in future class
+// Update - will go over in future class
 
-// Create data via a post request
-app.post("/fruits", (req, res) => {
-  //if checked, req.body.readyToEat is set to 'on'
+app.post("/fruits/", (req, res) => {
   if (req.body.readyToEat === "on") {
-    // rewritten to match existing data
     req.body.readyToEat = true;
   } else {
     req.body.readyToEat = false;
   }
-  fruits.push(req.body);
-  // redirect user to the fruits route
-  res.redirect('/fruits');
+  Fruit.create(req.body, (error, createdFruit) => {
+    res.send(createdFruit);
+    res.redirect("/fruits");
+  });
 });
 
-app.get("/fruits/:indexOfFruitsArray", function (req, res) {
-  res.render("fruits/Show", {
-    //second param must be an object
-    fruit: fruits[req.params.indexOfFruitsArray],
-    //there will be a variable available inside the ejs file called fruit, its value is fruits[req.params.indexOfFruitsArray]
+app.get("/fruits/:id", function (req, res) {
+  Fruit.findById(req.params.id, (err, foundFruit) => {
+    res.send(foundFruit);
   });
 });
 
@@ -78,7 +97,7 @@ app.post("/veggies", (req, res) => {
   }
   veggies.push(req.body);
   // redirect user to the fruits route
-  res.redirect('/veggies');
+  res.redirect("/veggies");
 });
 
 app.get("/veggies/:indexOfVeggiesArray", function (req, res) {
