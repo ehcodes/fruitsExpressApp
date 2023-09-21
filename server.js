@@ -113,10 +113,17 @@ app.post("/veggies", async function (req, res) {
   }
 });
 
-app.get("/veggies/:indexOfVeggiesArray", function (req, res) {
-  res.render("veggies/ShowVeggie", {
-    veggie: veggies[req.params.indexOfVeggiesArray],
-  });
+app.get("/veggies/:id", async function (req, res) {
+  try {
+    const foundVeggie = await Veggie.findById(req.params.id);
+    res.render("veggies/Show", {
+      veggie: foundVeggie,
+    });
+    console.log(foundVeggie);
+  } catch (err) {
+    res.send(err);
+    console.error(err);
+  }
 });
 
 app.listen(localPort, () => {
