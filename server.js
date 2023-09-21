@@ -82,7 +82,7 @@ app.get("/fruits/:id", async function (req, res) {
 
 app.get("/veggies", (req, res) => {
   Veggie.find({}).then((allVeggies) => {
-    res.render("veggies/IndexVeggie", {
+    res.render("veggies/Index", {
       veggies: allVeggies,
     });
   });
@@ -90,7 +90,7 @@ app.get("/veggies", (req, res) => {
 
 // renders form to add a new fruit
 app.get("/veggies/new", function (req, res) {
-  res.render("veggies/NewVeggie");
+  res.render("veggies/New");
 });
 
 // Delete - will go over in future class
