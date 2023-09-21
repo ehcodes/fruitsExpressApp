@@ -5,7 +5,7 @@ class ShowVeggie extends React.Component {
     const veggie = this.props.veggie;
     return (
       <div>
-        <h1> Veggie Show Page </h1>
+        <h1>{veggie.name.toUpperCase()}</h1>
         <p>
           The {veggie.name} is {veggie.color}
         </p>
