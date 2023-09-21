@@ -2,18 +2,21 @@ const React = require("react");
 
 class IndexVeggie extends React.Component {
   render() {
-    const { veggies } = this.props;
     return (
       <div>
         <nav>
           <a href="/veggies/new">Create a New Veggie</a>
-      </nav>
-        <h1>Veggies Index Page</h1>
+        </nav>
+        <h1>Veggies Index (MongoDB)</h1>
         <ul>
-          {veggies.map((veggie, i) => {
+          {this.props.veggies.map((veggie, i) => {
             return (
               <li>
-                <a href={`/veggies/${i}`}>{veggie.name}</a>
+                The <a href={`/veggies/${veggie.id}`}>{veggie.name}</a>
+                {` is ${veggie.color} and `}
+                {veggie.readyToEat
+                  ? `it is ready to eat`
+                  : `it is not ready to eat`}
               </li>
             );
           })}
