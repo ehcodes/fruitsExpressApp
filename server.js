@@ -1,4 +1,3 @@
-// places every kvp in our .env into a javascript object called process.env
 require("dotenv").config();
 
 const express = require("express");
