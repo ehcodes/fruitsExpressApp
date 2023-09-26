@@ -1,9 +1,9 @@
 const React = require("react");
+const Default = require("../layouts/Default.jsx");
 
 const ShowVeggie = ({veggie}) => {
   return (
-    <div>
-      <h1>{veggie.name.toUpperCase()}</h1>
+    <Default title={veggie.name.toUpperCase()}>
       <p>
         The {veggie.name} is {veggie.color}
       </p>
@@ -12,7 +12,7 @@ const ShowVeggie = ({veggie}) => {
           ? "Its is ready to eat"
           : "It is not ready to eat... Cant touch this"}
       </p>
-    </div>
+    </Default>
   );
 };
 

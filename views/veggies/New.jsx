@@ -1,9 +1,9 @@
 const React = require("react");
+const Default = require("../layouts/Default.jsx");
 
 const NewVeggie = () => {
   return (
-    <div>
-      <h1>New Veggie page</h1>
+    <Default title={"Add a New Veggie"}>
       <form action="/veggies" method="POST">
         Name: <input type="text" name="name" />
         <br />
@@ -13,7 +13,7 @@ const NewVeggie = () => {
         <br />
         <input type="submit" name="" value="Create Veggie" />
       </form>
-    </div>
+    </Default>
   );
 };
 

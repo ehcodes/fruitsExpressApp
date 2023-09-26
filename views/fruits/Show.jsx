@@ -2,8 +2,7 @@ const React = require("react");
 
 const Show =({fruit})=> {
   return (
-    <div>
-      <h1>{fruit.name.toUpperCase()}</h1>
+    <Default title={fruit.name.toUpperCase()}>
       <p>
         The {fruit.name} is {fruit.color}
       </p>
@@ -12,7 +11,7 @@ const Show =({fruit})=> {
           ? "Its is ready to eat"
           : "It is not ready to eat... Cant touch this"}
       </p>
-    </div>
+    </Default>
   );
 }
 
