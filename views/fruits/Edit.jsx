@@ -7,7 +7,7 @@ const Edit = ({ fruit }) => {
       <nav>
         <a href={`/fruit/${fruit.id}`}>Return to {fruit.name}</a>
       </nav>
-      <form>
+      <form action={`/fruits/${fruit.id}?_method=PUT`} method="POST">
         Name: <input type="text" name="name" defaultValue={fruit.name} />
         <br />
         Color: <input type="text" name="color" defaultValue={fruit.color} />
