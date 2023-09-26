@@ -1,17 +1,17 @@
 const React = require("react");
 
-const DefaultLayout = () => {
+const Default = ({title, children}) => {
   return (
     <html>
       <head>
-        <title>{this.props.title}</title>
+        <title>{title}</title>
       </head>
       <body>
-        <h1>{this.props.title}</h1>
-        {this.props.children}
+        <h1>{title}</h1>
+        {children}
       </body>
     </html>
   );
 };
 
-module.exports = DefaultLayout;
+module.exports = Default;

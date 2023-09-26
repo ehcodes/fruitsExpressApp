@@ -9,6 +9,8 @@ app.engine("jsx", jsxViewEngine());
 
 const mongoose = require("mongoose");
 
+const methodOverride = require("method-override");
+
 // parses incoming requests
 app.use(express.urlencoded({ extended: false }));
 
@@ -33,12 +35,13 @@ const Veggie = require("./models/veggieSchema.js");
 
 // EXPRESS ROUTES
 // fruits route will render the Index.jsx component
-app.get("/fruits", (req, res) => {
-  Fruit.find({}).then((allFruits) => {
-    res.render("fruits/Index", {
-      fruits: allFruits,
-    });
-  });
+app.get("/fruits/", async (req, res) => {
+  try {
+    const allFruits = await Fruit.find();
+    res.render("fruits/Index", { fruits: allFruits });
+  } catch (error) {
+    console.error(error);
+  }
 });
 
 // renders form to add a new fruit
@@ -47,9 +50,18 @@ app.get("/fruits/new", function (req, res) {
 });
 
 // Delete - will go over in future class
+app.delete("/fruits/:id", async (req, res) => {
+  try {
+    await Fruit.findByIdAndRemove(req.params.id);
+    res.redirect("/fruits");
+  } catch (error) {
+    console.error(error);
+  }
+});
+
 // Update - will go over in future class
 
-app.post("/fruits", async function (req, res) {
+app.post("/fruits", async (req, res) => {
   if (req.body.readyToEat === "on") {
     req.body.readyToEat = true;
   } else {
@@ -64,7 +76,7 @@ app.post("/fruits", async function (req, res) {
   }
 });
 
-app.get("/fruits/:id", async function (req, res) {
+app.get("/fruits/:id", async (req, res) => {
   try {
     const foundFruit = await Fruit.findById(req.params.id);
     res.render("fruits/Show", {
@@ -93,7 +105,7 @@ app.get("/veggies/new", function (req, res) {
 // Update - will go over in future class
 
 // Send data to mdb via post request
-app.post("/veggies", async function (req, res) {
+app.post("/veggies", async (req, res) => {
   if (req.body.readyToEat === "on") {
     req.body.readyToEat = true;
   } else {
@@ -108,7 +120,7 @@ app.post("/veggies", async function (req, res) {
   }
 });
 
-app.get("/veggies/:id", async function (req, res) {
+app.get("/veggies/:id", async (req, res) => {
   try {
     const foundVeggie = await Veggie.findById(req.params.id);
     res.render("veggies/Show", {

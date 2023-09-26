@@ -1,6 +1,6 @@
 const React = require("react");
 
-const IndexVeggie=()=> {
+const IndexVeggie=({veggies})=> {
   return (
     <div>
       <nav>
@@ -8,7 +8,7 @@ const IndexVeggie=()=> {
       </nav>
       <h1>Veggies Index (MongoDB)</h1>
       <ul>
-        {this.props.veggies.map((veggie, i) => {
+        {veggies.map((veggie, i) => {
           return (
             <li>
               The <a href={`/veggies/${veggie.id}`}>{veggie.name}</a>

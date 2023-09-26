@@ -1,7 +1,6 @@
 const React = require("react");
 
-const ShowVeggie = () => {
-  const veggie = this.props.veggie;
+const ShowVeggie = ({veggie}) => {
   return (
     <div>
       <h1>{veggie.name.toUpperCase()}</h1>
