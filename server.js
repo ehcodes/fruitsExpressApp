@@ -1,18 +1,18 @@
 require("dotenv").config();
 
+const mongoose = require("mongoose");
 const express = require("express");
 const app = express();
+
+// parses incoming requests
+app.use(express.urlencoded({ extended: false }));
 
 const jsxViewEngine = require("jsx-view-engine");
 app.set("view engine", "jsx");
 app.engine("jsx", jsxViewEngine());
 
-const mongoose = require("mongoose");
-
 const methodOverride = require("method-override");
-
-// parses incoming requests
-app.use(express.urlencoded({ extended: false }));
+app.use(methodOverride('_method'));
 
 // middleware - necessary to access posted form data
 app.use((req, res, next) => {
@@ -54,8 +54,8 @@ app.delete("/fruits/:id", async (req, res) => {
   try {
     await Fruit.findByIdAndRemove(req.params.id);
     res.redirect("/fruits");
-  } catch (error) {
-    console.error(error);
+  } catch (err) {
+    console.error(err);
   }
 });
 
