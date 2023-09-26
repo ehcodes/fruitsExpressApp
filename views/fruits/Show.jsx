@@ -1,4 +1,5 @@
 const React = require("react");
+const Default = require("../layouts/Default.jsx");
 
 const Show =({fruit})=> {
   return (
