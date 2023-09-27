@@ -12,7 +12,7 @@ app.set("view engine", "jsx");
 app.engine("jsx", jsxViewEngine());
 
 const methodOverride = require("method-override");
-app.use(methodOverride('_method'));
+app.use(methodOverride("_method"));
 
 // middleware - necessary to access posted form data
 app.use((req, res, next) => {
@@ -29,12 +29,10 @@ mongoose.connection.once("open", () => {
   console.log("connected to mongo");
 });
 
-// IMPORTING MODELS
+// IMPORTING FRUIT MODEL
 const Fruit = require("./models/fruitSchema.js");
-const Veggie = require("./models/veggieSchema.js");
 
-// EXPRESS ROUTES
-// fruits route will render the Index.jsx component
+// ROUTES
 app.get("/fruits/", async (req, res) => {
   try {
     const allFruits = await Fruit.find();
@@ -44,23 +42,33 @@ app.get("/fruits/", async (req, res) => {
   }
 });
 
-// renders form to add a new fruit
 app.get("/fruits/new", function (req, res) {
   res.render("fruits/New");
 });
 
-// Delete - will go over in future class
-app.delete("/fruits/:id", async (req, res) => {
+app.get("/fruits/:id", async (req, res) => {
   try {
-    await Fruit.findByIdAndRemove(req.params.id);
-    res.redirect("/fruits");
+    const foundFruit = await Fruit.findById(req.params.id);
+    res.render("fruits/Show", {
+      fruit: foundFruit,
+    });
   } catch (err) {
+    res.send(err);
     console.error(err);
   }
 });
 
-// Update - will go over in future class
+app.get("/fruits/:id/edit", async (req, res) => {
+  try {
+    const foundFruit = await Fruit.findById(req.params.id);
+    res.render("fruits/Edit", { fruit: foundFruit });
+  } catch (err) {
+    console.error(err);
+    res.send({ msg: err.message });
+  }
+});
 
+// post data to db
 app.post("/fruits", async (req, res) => {
   if (req.body.readyToEat === "on") {
     req.body.readyToEat = true;
@@ -76,18 +84,36 @@ app.post("/fruits", async (req, res) => {
   }
 });
 
-app.get("/fruits/:id", async (req, res) => {
+// Update existing fruit via id lookup
+app.put("/fruits/:id", async (req, res) => {
+  if (req.body.readyToEat === "on") {
+    req.body.readyToEat = true;
+  } else {
+    req.body.readyToEat = false;
+  }
   try {
-    const foundFruit = await Fruit.findById(req.params.id);
-    res.render("fruits/Show", {
-      fruit: foundFruit,
-    });
+    await Fruit.findByIdAndUpdate(req.params.id, req.body)
+    return res.redirect(`/fruits/${req.params.id}`);
   } catch (err) {
-    res.send(err);
+    res.send(`error in adding new fruit`);
     console.error(err);
   }
 });
 
+// Delete existing fruit via id lookup
+app.delete("/fruits/:id", async (req, res) => {
+  try {
+    await Fruit.findByIdAndRemove(req.params.id);
+    res.redirect("/fruits");
+  } catch (err) {
+    console.error(err);
+  }
+});
+
+// IMPORTING VEGGIE MODELS
+const Veggie = require("./models/veggieSchema.js");
+
+// ROUTES
 app.get("/veggies", (req, res) => {
   Veggie.find({}).then((allVeggies) => {
     res.render("veggies/Index", {
@@ -96,15 +122,33 @@ app.get("/veggies", (req, res) => {
   });
 });
 
-// renders form to add a new fruit
 app.get("/veggies/new", function (req, res) {
   res.render("veggies/New");
 });
 
-// Delete - will go over in future class
-// Update - will go over in future class
+app.get("/veggies/:id", async (req, res) => {
+  try {
+    const foundVeggie = await Veggie.findById(req.params.id);
+    res.render("veggies/Show", {
+      veggie: foundVeggie,
+    });
+  } catch (err) {
+    res.send(err);
+    console.error(err);
+  }
+});
 
-// Send data to mdb via post request
+app.get("/veggies/:id/edit", async (req, res) => {
+  try {
+    const foundVeggie = await Veggie.findById(req.params.id);
+    res.render("veggies/Edit", { veggie: foundVeggie });
+  } catch (err) {
+    console.error(err);
+    res.send({ msg: err.message });
+  }
+});
+
+// post data to db
 app.post("/veggies", async (req, res) => {
   if (req.body.readyToEat === "on") {
     req.body.readyToEat = true;
@@ -120,19 +164,34 @@ app.post("/veggies", async (req, res) => {
   }
 });
 
-app.get("/veggies/:id", async (req, res) => {
+// Update existing veggie via id lookup
+app.put("/veggies/:id", async (req, res) => {
+  if (req.body.readyToEat === "on") {
+    req.body.readyToEat = true;
+  } else {
+    req.body.readyToEat = false;
+  }
   try {
-    const foundVeggie = await Veggie.findById(req.params.id);
-    res.render("veggies/Show", {
-      veggie: foundVeggie,
-    });
+    await Veggie.findByIdAndUpdate(req.params.id, req.body)
+    return res.redirect(`/veggies/${req.params.id}`);
   } catch (err) {
-    res.send(err);
+    res.send(`error in adding new veggie`);
+    console.error(err);
+  }
+});
+
+// Delete existing veggie via id lookup
+app.delete("/veggies/:id", async (req, res) => {
+  try {
+    await Veggie.findByIdAndRemove(req.params.id);
+    res.redirect("/veggies");
+  } catch (err) {
     console.error(err);
   }
 });
 
 app.listen(3000, () => {
+  console.log(Date())
   console.log(`listening on port 3000`);
   console.log(`http://localhost:3000/`);
 });
