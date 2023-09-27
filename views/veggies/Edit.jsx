@@ -5,15 +5,21 @@ const Edit = ({ veggie }) => {
   return (
     <Default title={`Edit ${veggie.name}`}>
       <nav>
-        <a href={`/fruit/${veggie.id}`}>Return to {veggie.name}</a>
+        <a href={`/veggies/${veggie.id}`}>Return to {veggie.name}</a>
       </nav>
-      <form>
-          Name: <input type="text" name="name" defaultValue={veggie.name}/><br/>
-          Color: <input type="text" name="color"  defaultValue={veggie.color}/><br/>
-          Is Ready To Eat:
-              { veggie.readyToEat? <input type="checkbox" name="readyToEat" defaultChecked />: <input type="checkbox" name="readyToEat"/> }
-          <br/>
-          <input type="submit" value="Submit Changes"/>
+      <form action={`/veggies/${veggie.id}?_method=PUT`} method="POST">
+        Name: <input type="text" name="name" defaultValue={veggie.name} />
+        <br />
+        Color: <input type="text" name="color" defaultValue={veggie.color} />
+        <br />
+        Is Ready To Eat:
+        {veggie.readyToEat ? (
+          <input type="checkbox" name="readyToEat" defaultChecked />
+        ) : (
+          <input type="checkbox" name="readyToEat" />
+        )}
+        <br />
+        <input type="submit" value="Submit Changes" />
       </form>
     </Default>
   );

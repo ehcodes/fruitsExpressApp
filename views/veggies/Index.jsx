@@ -17,6 +17,13 @@ const IndexVeggie = ({ veggies }) => {
                 {veggie.readyToEat
                   ? `it is ready to eat`
                   : `it is not ready to eat`}
+                  <form
+                    action={`/veggies/${veggie.id}?_method=DELETE`}
+                    method="POST"
+                  >
+                    <input type="submit" value="DELETE" />
+                  </form>
+                  <a href={`/veggies/${veggie.id}/edit`}>Edit This Veggie</a>
               </li>
             );
           })}
