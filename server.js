@@ -8,6 +8,7 @@ const app = express();
 app.use(express.urlencoded({ extended: false }));
 
 const jsxViewEngine = require("jsx-view-engine");
+app.set("views", "src/views");
 app.set("view engine", "jsx");
 app.engine("jsx", jsxViewEngine());
 
@@ -79,7 +80,7 @@ app.post("/fruits", async (req, res) => {
     const newFruit = await Fruit.create(req.body);
     return res.redirect("/fruits");
   } catch (err) {
-    res.send(`error in adding ${newFruit.name}`);
+    res.send(`error in adding ${req.body}`);
     console.error(err);
   }
 });
