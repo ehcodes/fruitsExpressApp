@@ -31,7 +31,7 @@ mongoose.connection.once("open", () => {
 });
 
 // IMPORTING FRUIT MODEL
-const Fruit = require("./models/fruitSchema.js");
+const Fruit = require("./src/models/fruitSchema.js");
 
 // ROUTES
 app.get("/fruits/", async (req, res) => {
@@ -93,7 +93,7 @@ app.put("/fruits/:id", async (req, res) => {
     req.body.readyToEat = false;
   }
   try {
-    await Fruit.findByIdAndUpdate(req.params.id, req.body)
+    await Fruit.findByIdAndUpdate(req.params.id, req.body);
     return res.redirect(`/fruits/${req.params.id}`);
   } catch (err) {
     res.send(`error in adding new fruit`);
@@ -112,7 +112,7 @@ app.delete("/fruits/:id", async (req, res) => {
 });
 
 // IMPORTING VEGGIE MODELS
-const Veggie = require("./models/veggieSchema.js");
+const Veggie = require("./src/models/veggieSchema.js");
 
 // ROUTES
 app.get("/veggies", (req, res) => {
@@ -173,7 +173,7 @@ app.put("/veggies/:id", async (req, res) => {
     req.body.readyToEat = false;
   }
   try {
-    await Veggie.findByIdAndUpdate(req.params.id, req.body)
+    await Veggie.findByIdAndUpdate(req.params.id, req.body);
     return res.redirect(`/veggies/${req.params.id}`);
   } catch (err) {
     res.send(`error in adding new veggie`);
@@ -192,7 +192,7 @@ app.delete("/veggies/:id", async (req, res) => {
 });
 
 app.listen(3000, () => {
-  console.log(Date())
+  console.log(Date());
   console.log(`listening on port 3000`);
   console.log(`http://localhost:3000/`);
 });
